@@ -7,6 +7,9 @@ inputs:
   workspace-id:
     description: "Terraform Cloud workspace ID"
     required: true
+  path-to-tfstate:
+    description: "Path to the tfstate file"
+    required: false
 outputs:
   tfstate:
     description: "Terraform Cloud tfstate"
@@ -17,12 +20,15 @@ runs:
     - name: Fetch Terraform Cloud tfstate
       id: fetch-tfstate
       run: |
-        set -euxo pipefail
+        set -euo pipefail
         HTTP_RESPONSE=$(curl \
           --header "Authorization: Bearer "${{ inputs.terraform-cloud-token }}"" \
           --header "Content-Type: application/vnd.api+json" \
           "https://app.terraform.io/api/v2/workspaces/${{ inputs.workspace-id }}/current-state-version" | jq -r '.data | .attributes | ."hosted-state-download-url"')
-        curl -o current.tfstate $HTTP_RESPONSE
-        cp current.tfstate /tmp/current.tfstate
-        echo "tfstate-path=/tmp/current.tfstate" >> $GITHUB_OUTPUT
+        TFSTATE_FILE=${{ inputs.path-to-tfstate }}
+        if [ -z "${TFSTATE_FILE}" ]; then
+          TFSTATE_FILE=$(mktemp)
+        fi
+        curl -o $TFSTATE_FILE $HTTP_RESPONSE
+        echo "tfstate-path=${TFSTATE_FILE}" >> $GITHUB_OUTPUT
       shell: bash
