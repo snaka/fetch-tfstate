@@ -10,7 +10,7 @@ inputs:
 outputs:
   tfstate:
     description: "Terraform Cloud tfstate"
-    value: ${{ steps.fetch-tfstate.outputs.tfstate }}
+    value: ${{ steps.fetch-tfstate.outputs.tfstate-path }}
 runs:
   using: "composite"
   steps:
@@ -23,5 +23,6 @@ runs:
           --header "Content-Type: application/vnd.api+json" \
           "https://app.terraform.io/api/v2/workspaces/${{ inputs.workspace-id }}/current-state-version" | jq -r '.data | .attributes | ."hosted-state-download-url"')
         curl -o current.tfstate $HTTP_RESPONSE
-        echo "::set-output name=tfstate::$(cat current.tfstate)"
+        cp current.tfstate /tmp/current.tfstate
+        echo "tfstate-path=/tmp/current.tfstate" >> $GITHUB_OUTPUT
       shell: bash
