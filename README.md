@@ -23,8 +23,8 @@ jobs:
         uses: snaka/fetch-tfstate@v1-beta
         with:
           terraform-cloud-token: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
-          workspace: 'ws-xxxxxxxxxxxxxxx'
-        path-to-tfstate: ${{ github.workspace }}/terraform.tfstate  # optional
+          workspace-id: 'ws-xxxxxxxxxxxxxxx'
+          path-to-tfstate: ${{ github.workspace }}/terraform.tfstate  # optional
       - show tfstate file
         run: echo ${{ steps.fetch-tfstate.outputs.tfstate }}
 ```
