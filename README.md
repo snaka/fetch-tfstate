@@ -26,7 +26,7 @@ jobs:
           workspace: 'ws-xxxxxxxxxxxxxxx'
         path-to-tfstate: ${{ github.workspace }}/terraform.tfstate  # optional
       - show tfstate file
-        run: echo ${{ steps.fetch-tfstate.outputs.path-to-tfstate }}
+        run: echo ${{ steps.fetch-tfstate.outputs.tfstate }}
 ```
 
 ## Inputs
@@ -39,6 +39,6 @@ jobs:
 
 ## Outputs
 
-| Name    | Description             |
-| ------- | ----------------------- |
-| tfstate | Downloaded tfstate file |
+| Name    | Description                     |
+| ------- | ------------------------------- |
+| tfstate | Path to downloaded tfstate file |
