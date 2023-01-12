@@ -4,7 +4,7 @@ Fetch Terraform Cloud tfstate on GitHub Actions
 
 ## Motivation
 
-Deployment tools around ECS such as ecspresso and ecschedule can be conveniently used in conjunction with Terraform using tfstate.
+Deployment tools around ECS such as [ecspresso](https://github.com/kayac/ecspresso) and [ecschedule](https://github.com/Songmu/ecschedule) can be conveniently used in conjunction with Terraform using tfstate.
 
 However, if you are using Terraform Cloud and the repository that manages the terraform code is separated from the application code to be deployed, it is a little troublesome to get tfstate.
 
